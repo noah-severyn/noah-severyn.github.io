@@ -1,5 +1,44 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+
 h1 {
 	color: white;
 	background-color: #000000;
-	font-variant-caps: small-caps;
+	font-family: 'Playfair Display', Georgia, serif;
+	font-size:50px;
+}
+h2 {
+	font-family: Montserrat, 'Trebuchet MS', sans-serif;
+	font-size: 40px;
+	color: #333333;
+	border-top: 1px solid #dedede;
+	padding-top: 15px;
+	letter-spacing: .1em;
+}
+p, li {
+	font-family: 'Playfair Display', Georgia, serif;
+	color: #222222;
+}
+a {
+	color: rebeccapurple;
+}
+blockquote {
+	font-family: Montserrat, 'Trebuchet MS', sans-serif;
+	font-style:italic;
+	font-size:14px;
+}
+hr {
+	color:#dedede;
+	margin: 40px 20px 40px 20px;
+}
+img {
+	border: 1px solid #dedede;
+	text-align: center;
+}
+
+.interjection {
+	/*TODO: fix the div color here*/
+	color: purple;
+	background-color:cadetblue;
+	margin:20px;
 }
