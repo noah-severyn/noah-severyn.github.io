@@ -5,8 +5,9 @@ h1 {
 	color: white;
 	background-color: #000000;
 	font-family: 'Playfair Display', Georgia, serif;
-	font-size:50px;
+	font-size: 50px;
 }
+
 h2 {
 	font-family: Montserrat, 'Trebuchet MS', sans-serif;
 	font-size: 40px;
@@ -15,30 +16,70 @@ h2 {
 	padding-top: 15px;
 	letter-spacing: .1em;
 }
+
 p, li {
 	font-family: 'Playfair Display', Georgia, serif;
 	color: #222222;
+	font-size: 1.05em;
 }
+
 a {
 	color: rebeccapurple;
 }
+
 blockquote {
 	font-family: Montserrat, 'Trebuchet MS', sans-serif;
-	font-style:italic;
-	font-size:14px;
-}
-hr {
-	color:#dedede;
-	margin: 40px 20px 40px 20px;
-}
-img {
-	border: 1px solid #dedede;
-	text-align: center;
+	font-style: italic;
+	font-size: 14px;
 }
 
-.interjection {
+	blockquote li {
+		font-family: Montserrat, 'Trebuchet MS', sans-serif;
+		font-style: italic;
+		font-size: 14px;
+		margin-left: -25px;
+	}
+
+hr {
+	color: #dedede;
+	margin: 40px 20px 40px 20px;
+}
+
+img {
+	border: 1px solid #dedede;
+	float: right;
+	margin-left: 10px;
+}
+
+	img.centeredimg {
+		float: none;
+		display: block;
+		margin: 5px auto 5px auto;
+	}
+
+	img.linkicon {
+		float: none;
+		border: none;
+		width: 20px;
+		margin-bottom: -0.25em;
+	}
+
+div.interjection {
 	/*TODO: fix the div color here*/
 	color: purple;
-	background-color:cadetblue;
-	margin:20px;
+	background-color: cadetblue;
+	margin: 20px;
 }
+
+code {
+	/*border: 1px solid #dedede;
+	padding: 5px;*/
+	line-height: 1.5;
+}
+
+	code pre {
+		border: unset;
+		padding: unset;
+		border: 1px solid #dedede;
+		padding: 20px;
+	}
