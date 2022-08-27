@@ -27,6 +27,10 @@ a {
 	color: rebeccapurple;
 }
 
+var {
+	font-family: Calibri, sans-serif;
+}
+
 blockquote {
 	font-family: Montserrat, 'Trebuchet MS', sans-serif;
 	font-style: italic;
@@ -64,16 +68,12 @@ img {
 		margin-bottom: -0.25em;
 	}
 
-div.interjection {
-	/*TODO: fix the div color here*/
-	color: purple;
-	background-color: cadetblue;
+div.interjection p {
+	color: rebeccapurple;
 	margin: 20px;
 }
 
 code {
-	/*border: 1px solid #dedede;
-	padding: 5px;*/
 	line-height: 1.5;
 }
 
