@@ -57,6 +57,8 @@ img {
 	border: 1px solid #dedede;
 	float: right;
 	margin-left: 10px;
+	max-width: 100%;
+	height: auto;
 }
 
 	img.centeredimg {
@@ -79,6 +81,7 @@ div.interjection p {
 
 code {
 	line-height: 1.5;
+	
 }
 
 	code pre {
@@ -86,9 +89,18 @@ code {
 		padding: unset;
 		border: 1px solid #dedede;
 		padding: 20px;
+		overflow-wrap: break-word; /*TODO: Fix word break for smaller screens*/
+		word-break: break-all;
 	}
 
-
+.parallax {
+	background-image: url("resource/polynomial/header.jpg");
+	min-height: 600px;
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
 
 /* ========= */
 /*  Sidenav  */
