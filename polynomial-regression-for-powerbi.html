@@ -15,7 +15,7 @@
 	<div class="sidenav">
 		<p id="sidenavHeader">NOAH <br /> SEVERYN</p>
 		<a href="index.html">Home</a>
-		<a href="polynomial-regression-for-powerbi.html">Polynomial Regression for Power BI</a>
+		<a href="polynomial.html">Polynomial Regression for Power BI</a>
 	</div>
 
 
@@ -25,7 +25,7 @@
 
 	<h2>Let's make some curves</h2>
 	<p>Last Update: Feb 2022 (new format in progress Aug 2022)</p>
-	<img src="resource/polynomial-regression-for-powerbi/charts.png" alt="Original charts" />
+	<img src="resource/polynomial/charts.png" alt="Original charts" />
 	<p>If you're here looking to build some polynomial regression curves for some data, I'm sure I do not need to explain why they can be helpful when analyzing your data. I found myself in a situation like this recently, where I needed to replicate some excel charts in a Power BI (PBI) report. Pretty easy to do since I already most of the data set up, however this chart had both a linear regression line and a 2nd order polynomial regression line. As in the example, each of these regression lines told different stories about what was happening about the data in question.</p>
 	<p>As anyone developing PBI reports for a company will surely know, building the reports is useless if people don't use them - and even more so if the exact same analysis is being performed in excel. This screenshot (a screenshot of a PowerPoint presentation from a Teams meeting), is one such example. I did not have any kind of useful trend lines for use in my PBI report, so Excel (naturally) came to the rescue.</p>
 	<p>By default, Power BI does include the capability to add a trend line to your data, which definitely is handy. However, the customization is quite limited meaning there are quite a few drawbacks with using the built in lines. You're out of luck if:</p>
@@ -34,8 +34,8 @@
 		<li>You want to use any other kind of regression other than linear (higher order, exponential, logarithmic, etc.)</li>
 	</ul>
 	<p>If you would like to follow along, I have attached the Excel and Power BI files I used to work through this the first time. Feel free to reference those</p>
-	<p><img src="https://i.pinimg.com/originals/f0/ba/ab/f0baabc7a94a50448da9fb2d9508d450.png" class="linkicon" alt="Microsoft Excel icon" /> <a href="resource/polynomial-regression-for-powerbi/regression_test.xlsx" download>regression_test.xlsx</a> (55kb)</p>
-	<p><img src="https://lirp-cdn.multiscreensite.com/5b258fc8/dms3rep/multi/opt/Powerbi-960w.png" class="linkicon" alt="Power BI icon" /> <a href="resource/polynomial-regression-for-powerbi/regression_test.pbix" download>regression_test.pbix</a> (51kb)</p>
+	<p><img src="https://i.pinimg.com/originals/f0/ba/ab/f0baabc7a94a50448da9fb2d9508d450.png" class="linkicon" alt="Microsoft Excel icon" /> <a href="resource/polynomial/regression_test.xlsx" download>regression_test.xlsx</a> (55kb)</p>
+	<p><img src="https://lirp-cdn.multiscreensite.com/5b258fc8/dms3rep/multi/opt/Powerbi-960w.png" class="linkicon" alt="Power BI icon" /> <a href="resource/polynomial/regression_test.pbix" download>regression_test.pbix</a> (51kb)</p>
 
 	<h2>Building straight curves</h2>
 	<p>After some quick research, I found an example courtesy of <i>XXL BI</i> that works quite nicely for <a href="https://xxlbi.com/blog/simple-linear-regression-in-dax/">calculating a simple linear regression</a>. Conveniently, this will also provide us with a template to start from when building  up our higher order regression. From that link, we find two additional reasons to consider using a calculated trend line instead of the automatic ones provided by the visual:</p>
@@ -123,40 +123,40 @@
 
 	<p>To start with, first put together the summary measures multiplying x and y values together in different ways. Simple enough.</p>
 	<p><i>Note: for display purposes, all values are truncated to two decimal points, not rounded.</i></p>
-	<img src="resource/polynomial-regression-for-powerbi/initial vars.png" class="centeredimg" alt="Initial summary measures: calculating sums of xs and ys to a power">
+	<img src="resource/polynomial/initial vars.png" class="centeredimg" alt="Initial summary measures: calculating sums of xs and ys to a power">
 
 	<p>With all of those measures computed, we can assemble our matrix M. From a mathematical perspective, this is skipping quite a few steps to get here (as detailed here), but there's really no reason to model those, as this is a convenient starting point to use anyways.</p>
-	<img src="resource/polynomial-regression-for-powerbi/m matrix.png" class="centeredimg" alt="Assembled matrix of initial summary measures" />
+	<img src="resource/polynomial/m matrix.png" class="centeredimg" alt="Assembled matrix of initial summary measures" />
 
 	<p>I found an <a href="https://metric.ma.ic.ac.uk/metric_public/matrices/inverses/inverses2.html">explanation that I like</a> to help find the inverse of a 3x3 matrix, which we ultimately need to do to compute the regression equation. The first step to finding the inverse of the matrix we just built in the previous step involves computing the minor of the matrix. For each row and column, cross out the current row and column and take the determinant of the remaining 2x2 matrix.</p>
-	<img src="resource/polynomial-regression-for-powerbi/minor matrix.png" class="centeredimg" alt="Minor matrix" />
+	<img src="resource/polynomial/minor matrix.png" class="centeredimg" alt="Minor matrix" />
 
 	<p>Next, negate the value of alternating positions; this results in the cofactor matrix.</p>
-	<img src="resource/polynomial-regression-for-powerbi/cofactor matrix.png" class="centeredimg" alt="Cofactor matrix" />
+	<img src="resource/polynomial/cofactor matrix.png" class="centeredimg" alt="Cofactor matrix" />
 
 	<p>Next, simply transpose the matrix - switch all the rows to columns and the columns to rows. Because of the way our matrix is set up and which values are in which position, this likely will not look any different than before.</p>
-	<img src="resource/polynomial-regression-for-powerbi/transpose matrix.png" class="centeredimg" alt="Transposed cofactor matrix" />
+	<img src="resource/polynomial/transpose matrix.png" class="centeredimg" alt="Transposed cofactor matrix" />
 
 	<p>As a precursor for step 4, we'll need to find the determinant of our original 3x3 matrix. This is straightforward for a 2x2 matrix, but more complex for 3x3. Basically, for each column in the 3x3, we need to compute the determinant of the 2x2 matrix not including that column, and then add them together.</p>
-	<img src="resource/polynomial-regression-for-powerbi/determinant matrix.png" class="centeredimg" alt="Determinant matrix" />
+	<img src="resource/polynomial/determinant matrix.png" class="centeredimg" alt="Determinant matrix" />
 
 	<p>For the final step in finding the inverse, divide the transposed matrix by the determinant. This is our inverse of M, or M^-1.</p>
-	<img src="resource/polynomial-regression-for-powerbi/inverse matrix.png" class="centeredimg" alt="Inverse matrix" />
+	<img src="resource/polynomial/inverse matrix.png" class="centeredimg" alt="Inverse matrix" />
 
 	<p>We are now very close to the end of the process. Build up the y^ matrix with the basic summary measurements from the first step. </p>
-	<img src="resource/polynomial-regression-for-powerbi/y matrix.png" class="centeredimg" alt="Y matrix" />
+	<img src="resource/polynomial/y matrix.png" class="centeredimg" alt="Y matrix" />
 
 	<p>Lastly, multiply M'M^-1 and M'y^ together to find our coefficients for the regression equation, c, b, and a.</p>
-	<img src="resource/polynomial-regression-for-powerbi/solution matrix.png" class="centeredimg" alt="Solution matrix" />
-	<img src="resource/polynomial-regression-for-powerbi/eqn_blank.png" class="centeredimg" alt="Blank polynomial equation" />
-	<img src="resource/polynomial-regression-for-powerbi/eqn_solution.png" class="centeredimg" alt="Solution equation" />
+	<img src="resource/polynomial/solution matrix.png" class="centeredimg" alt="Solution matrix" />
+	<img src="resource/polynomial/eqn_blank.png" class="centeredimg" alt="Blank polynomial equation" />
+	<img src="resource/polynomial/eqn_solution.png" class="centeredimg" alt="Solution equation" />
 	<p>A quick check to verify that these are correct (at least according to how excel calculates them) shows that we're ok.</p>
 
 
 	<h2>Porting to Power BI</h2>
 	<p>Using the same <a href="https://xxlbi.com/blog/simple-linear-regression-in-dax/">template for the linear regression</a> I previously linked, let's port the formulas and measures into a format useful in power bi. For the sake of this exercise, we have a dates table, and our data is located in a second table with a date field related to the dates table. As mentioned before, unless you're plotting a scatter plot, you need to create a list of your "masked" x values from 1 to n to use for calculations. For that, let's create the first measure.</p>
 	<code><pre>zSequence1ToN = RANKX(ALLSELECTED(_Calendar13Month[End of Week]),CALCULATE(MAX(_Calendar13Month[End of Week])),,ASC)</pre></code>
-	<img src="resource/polynomial-regression-for-powerbi/sequence.png" alt="Created sequence 1 to n against the list of dates" />
+	<img src="resource/polynomial/sequence.png" alt="Created sequence 1 to n against the list of dates" />
 	<p>RANKX is a handy function that allows us to rank the values in a table against some other criteria. In this instance, however, we want to rank the values in the dates table by themselves (aka in the order they appear). We do not necessarily want to rank all of the rows in the dates table, only the rows in the current context. If there is some sort of page or visual filter or slicer to narrow down our criteria, we always want to start counting whatever the first x data point is at 1, i.e., instead of ranking all of the rows, we only want to rank only the selected rows (ALLSELECTED), against some aggregation of the entire column. As an example, we have a filter to only show the dates between 6/6/2021 and 8/8/21 - 6/6/21 is the first date value "visible" in the current context, so we want 6/6/2021 to be number 1, instead of 1/1/2000 (which is the first value in the dates table). Within the calculation, it does not matter which aggregation is used for the date (sum, max, or min are all valid), though I chose to use max here for clarity.</p>
 	<p>Add this to a table, and you get a nice list of numbers 1 to n. Set this aside. It will come in handy later on for testing and validation reasons.</p>
 	<p>In a similar style, we only want to calculate the measures listed above (sumOfYs, sumOfX2, sumOfX3, etc) for the rows in the current context, not all of the rows in the data set. Let's create a new measure for our polynomial fit equation. In that measure, start by adding a new variable called Known. Known will be a table with three columns: the currently selected dates, our selected x's (1-n) and the y's that accompany the selected dates (by "selected", I mean in the current context).</p>
@@ -265,7 +265,7 @@ RETURN
 	</code>
 
 	<h2>Validation</h2>
-	<img src="resource/polynomial-regression-for-powerbi/validationfull.png" alt="Validation of Power BI results compared to Excel" />
+	<img src="resource/polynomial/validationfull.png" alt="Validation of Power BI results compared to Excel" />
 	<p>To prove it works correctly, you can return each coefficient one at a time (instead of the whole final equation) and compare each part to to excel, or add this measure into a matrix visual and compare the results. Check that you are getting the same result as excel - everything looks good here! In this case, a second order polynomial line gives us a much better idea of the trends of our data, especially when compared to just a linear regression line.</p>
 	<p>As we wrote it, the measure is ultimately very modular and easy to reuse multiple times - simply swap in your desired measure for "Known Y" and go. The ALLSELECTED parts will automagically pick up the current row contexts applied to the specific visual the measure is in and adapt accordingly, meaning you can use the same measure in charts at the same time with two different time periods and have different results.</p>
 	<p>Feel free to look through the sample excel and pbix files I've linked to at the top which I used to develop the process and test out the data. If you are interested in understanding things step by step, take a look. Otherwise, just use the measure. Either way, I hope you found this helpful! :)</p>
