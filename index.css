@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+
+
+body {
+	margin-left: 225px; /* Same width as the sidebar + left position in px */
+}
+
+h1 {
+	color: white;
+	background-color: #000000;
+	font-family: 'Playfair Display', Georgia, serif;
+	font-size: 50px;
+	/*margin-left: 100px;*/
+	padding: 0px 10px 0px 10px;
+	width: fit-content;
+}
+
+p {
+	font-family: 'Playfair Display', Georgia, serif;
+	color: #222222;
+	font-size: 1.05em;
+}
+
+
+
+/* ========== */
+/*   Header   */
+/* ========== */
+#header_bg {
+	height: 300px;
+	background-color: #1084ca;
+}
+
+#header_title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#header_social {
+	margin-left: 50px;
+	margin-top: 50px;
+}
+
+.socialicon {
+	height: 50px;
+}
+
+
+/* ========= */
+/*  Sidenav  */
+/* ========= */
+.sidenav {
+	width: 165px;
+	position: fixed;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0px; /*Needed to override body margin*/
+	margin: 40px;
+}
+
+	.sidenav p {
+		/*padding: 6px 0px 6px 0px;*/
+		margin: 0px;
+	}
+
+	.sidenav a {
+		display: block;
+		padding: 6px 0px 6px 0px;
+		text-decoration: none;
+		font-family: Calibri, 'Trebuchet MS', sans-serif;
+		font-size: 16px;
+		text-transform: uppercase;
+	}
+
+		.sidenav a:hover {
+			color: #c94fe2;
+		}
+
+	.sidenav #sidenavHeader {
+		font-family: Calibri, 'Trebuchet MS', sans-serif;
+		font-weight: 900;
+		font-size: 1.5em;
+		color: white;
+		background-color: black;
+		padding: 5px;
+		line-height: .95em;
+	}
