@@ -30,19 +30,19 @@
 	<h2>Let's make some curves</h2>
 	<p>Last Update: Feb 2022 (new format in progress Aug 2022)</p>
 	<img src="resource/polynomial/charts.png" alt="Original charts" />
-	<p>If you're here looking to build some polynomial regression curves for some data, I'm sure I do not need to explain why they can be helpful when analyzing your data. I found myself in a situation like this recently, where I needed to replicate some excel charts in a Power BI (PBI) report. Pretty easy to do since I already most of the data set up, however this chart had both a linear regression line and a 2nd order polynomial regression line. As in the example, each of these regression lines told different stories about what was happening about the data in question.</p>
-	<p>As anyone developing PBI reports for a company will surely know, building the reports is useless if people don't use them - and even more so if the exact same analysis is being performed in excel. This screenshot (a screenshot of a PowerPoint presentation from a Teams meeting), is one such example. I did not have any kind of useful trend lines for use in my PBI report, so Excel (naturally) came to the rescue.</p>
+	<p>If you're here looking to build some polynomial regression curves for some data, I'm sure I do not need to explain why they can be helpful when analyzing your data. I found myself in a situation like this recently, where I needed to replicate some excel charts in a Power BI (PBI) report. Pretty easy to do since I already most of the data set up, however this chart had both a linear regression line and a 2nd order polynomial regression line. As demonstarted in the example to the right, each of these regression lines told different stories about what was happening about the data in question.</p>
+	<p>As anyone developing PBI reports for a company will surely know, building the reports is a rather useless task if people don't use them - and even more so if the exact same analysis is being performed in Excel. This screenshot (a screenshot of a PowerPoint presentation from a Teams meeting), is one such example. The report I created to show this data did not have the any kind of useful trend lines  on this chart, so Excel (naturally) came to the rescue.</p>
 	<p>By default, Power BI does include the capability to add a trend line to your data, which definitely is handy. However, the customization is quite limited meaning there are quite a few drawbacks with using the built in lines. You're out of luck if:</p>
 	<ul>
-		<li>You have more than one series in the chart but you only want one series to have a trend line</li>
+		<li>You have more than one series in the chart but you only want one series to have a trend line, or</li>
 		<li>You want to use any other kind of regression other than linear (higher order, exponential, logarithmic, etc.)</li>
 	</ul>
-	<p>If you would like to follow along, I have attached the Excel and Power BI files I used to work through this the first time. Feel free to reference those</p>
+	<p>If you would like to follow along, I have attached the Excel and Power BI files I used to develop the process and test out the data. Feel free to use them as you like.</p>
 	<p><img src="https://i.pinimg.com/originals/f0/ba/ab/f0baabc7a94a50448da9fb2d9508d450.png" class="linkicon" alt="Microsoft Excel icon" /> <a href="resource/polynomial/regression_test.xlsx" download>regression_test.xlsx</a> (55kb)</p>
 	<p><img src="https://lirp-cdn.multiscreensite.com/5b258fc8/dms3rep/multi/opt/Powerbi-960w.png" class="linkicon" alt="Power BI icon" /> <a href="resource/polynomial/regression_test.pbix" download>regression_test.pbix</a> (51kb)</p>
 
 	<h2>Building straight curves</h2>
-	<p>After some quick research, I found an example courtesy of <i>XXL BI</i> that works quite nicely for <a href="https://xxlbi.com/blog/simple-linear-regression-in-dax/">calculating a simple linear regression</a>. Conveniently, this will also provide us with a template to start from when building  up our higher order regression. From that link, we find two additional reasons to consider using a calculated trend line instead of the automatic ones provided by the visual:</p>
+	<p>I knew I was going to have to do a bit of work to find a solution that worked for my needs, so the first step was to see if there was anything floating out there that someone else had started that I could piggy back off of. After some quick research, I found an example courtesy of <i>XXL BI</i> that works quite nicely for <a href="https://xxlbi.com/blog/simple-linear-regression-in-dax/">calculating a simple linear regression</a>. Conveniently, I found later on that this also provides us with a great template to use when building up our higher order regression. That article also confirms that creating a measure to calculate our trend lines is the way to go opposed to the automatic ones provided by the visual:</p>
 	<blockquote>
 		There are at least two reasons to consider calculated trend lines:
 		<ol>
@@ -50,17 +50,18 @@
 			<li>As of September 2017, Power BI allows you to only add trend lines for numeric or datetime axes. As soon as you use strings (month names, for instance), you lose the ability to add trend lines. With simple linear regression, you can calculate them yourself, as long as you have sequential numeric values to use as known X values</li>
 		</ol>
 	</blockquote>
+	<p>We'll keep this code handy until we're ready to actualy start building the measure in Power BI. Before that however, we need to figure out how to adapt it so we can calculate the trend line we actually need: a second order (or higher order) polynomial.</p>
 
 
 	<h2>Building curvy curves (specifically 2nd order curves)</h2>
-	<p>Again, after some quick research, no examples appeared. Uh oh. That means we'll have to go back to basics and do it the old fashioned way: ourselves.</p>
-	<p>Having been years since I had last attempted to do any kind of math at this level, my plan (was at the time and also through the rest of this post) is as follows:</p>
+	<p>Beyond some additional linear regression examples, no examples appeared for any other kind of regression. That means we'll have to go back to basics and do it the old fashioned way: ourselves.</p>
+	<p>Having been years since I had last attempted to do any kind of math at this level, my plan (was at the time and also as is laid out through the rest of this post) is as follows:</p>
 	<ol>
-		<li>Determine what mathematical steps needed to be taken to get the correct result.</li>
-		<li>Map everything back to a few different variables I could combine together to make things a little easier.</li>
-		<li>Figure out how to move it over and make it work in PBI.</li>
+		<li>Determine what mathematical steps need to be taken to get the correct result.</li>
+		<li>Map everything to a few different variables I could combine together to simplify the process. There's no need to derrive everything from scratch every time.</li>
+		<li>Figure out how to port the math over to PBI and make it work.</li>
 	</ol>
-	<p>I'll use the process outlined <a href="https://www.thedatascientists.com/polynomial-regression">here</a>, which I found particularly helpful in explaining everything clearly and mostly all in one place with some examples. No matter what polynomial you want to model, the fundamental process is the same, but the math gets more complex the more orders you want to use. From that link:</p>
+	<p>Regarding the mathematical process, I'll use the process outlined <a href="https://www.thedatascientists.com/polynomial-regression">here</a>, which I found particularly helpful in explaining everything clearly and mostly all in one place with some examples. No matter what polynomial you want to model, the fundamental process is the same, but the math gets more complex the more orders you want to use. From that link:</p>
 	<blockquote>"We wish to find a polynomial function that gives the best fit to a sample of data. We will consider polynomials of degree n, where n is in the range of 1 to 5. In other words we will develop techniques that fit linear, quadratic, cubic, quartic and quintic regressions.  In fact, this technique will work for any order polynomial."</blockquote>
 	<p>This means we're looking to build a polynomial of degree <var>n=2</var>. To start with, let's use some sample data I borrowed from my project:</p>
 	<table>
@@ -117,25 +118,25 @@
 	<hr />
 	<div class="interjection">
 		<p>Future me interjecting here on behalf of current you - this next step will save you a lot of time validating and troubleshooting results.</p>
-		<p>After making my way most of the way through this process getting regression equations that continually differed from the ones excel was returning on the chart, I played around with the data and tried it on a variety of chart times. After a bit, I figured out the reason why my regression calculations were differing from the equation automatically calculated for the chart. As it turns out, excel "masks" all of the x values with the number <var>1-n</var>.</p>
-		<p>Try it out. In excel, replace the x values with a sequence <var>1-n</var> and you will notice that the regression equation does not change, despite the x values being a key component in those calculations.</p>
-		<p>The difference happens when plotting your values on any kind of line graph/bar graph, etc., as opposed to a scatter plot. In the other charts (line/bar/etc.) there is one independent variable and one dependent variable. There are two independent variables in a scatter plot, meaning it "matters" exactly what the x values are. You can replace the values in a bar/line graph with values spaced apart the same distance relatively, and you'd get the same result. Essentially, you are changing the numerical values of the x axis, so the values of 6/6/21 (44353) to 6/13/21 (44360) is masked with 1 to 2. While the numbers changed, the relative spacing between each data point did not, which is the important characteristic for these charts.</p>
-		<p>Additionally, its a lot easier to cube a number like 10 (10^3 = 10000) than it is to cube a date like 8/16/21 (44424^3 = 8.67704E+13), where we can really easily run into uncaptured rounding or truncation issues, especially in excel. Multiplying smaller numbers also means easier and quicker calculations, something to consider if you will apply this to 100s or 1000s of data points).</p>
+		<p>After making my way most of the way through this process getting regression equations that continually differed from the ones Excel was returning on the chart, I played around with the data and tried it on a variety of chart types. After a bit, I figured out the reason why my regression calculations were differing from the equation automatically calculated for the chart. As it turns out, Excel "masks" all of the x values with numbers from <var>1</var> to <var>n</var> .</p>
+		<p>Try it out. In excel, replace the x values with a sequence <var>1..n</var> and you will notice that the regression equation does not change, despite the x values being a key component in those calculations.</p>
+		<p>The difference happens when plotting the values on any kind of line graph/bar graph, etc., as opposed to a scatter plot. In line and bar charts there is one independent variable and one dependent variable. There are two independent variables in a scatter plot, meaning it "matters" exactly what the x values are. You can replace the values in a bar/line graph with values spaced apart the same distance relatively, and you'd get the same result. Essentially, you are changing the numerical values of the x axis, so the values of <var>6/6/21</var> (aka <var>44353</var>) to <var>6/13/21</var> (aka <var>44360</var>) is masked with 1 to 2, respectively. While the numbers themselves did change, the relative spacing between each data point did not. This is the important characteristic for these charts.</p>
+		<p>Additionally, its much less computationally quicker easier to cube a number like 10 (10^3 = 10000) than it is to cube a date like 8/16/21 (44424^3 = 8.67704E+13). With such large numbers, we could potentially  run into uncaptured rounding or truncation issues, especially in Excel. Multiplying smaller numbers means easier and quicker calculations, something to consider if you will apply this to thousands or hundreds of thousands or millions of data points.</p>
 		<p>End of helpful interjection. You may proceed with the regularly scheduled explanation.</p>
 	</div>
 	<hr />
 
-	<p>To start with, first put together the summary measures multiplying x and y values together in different ways. Simple enough.</p>
-	<p><i>Note: for display purposes, all values are truncated to two decimal points, not rounded.</i></p>
+	<p>The first thing we need to to is build up the matrix to start performing the required operations on it. I figured out the best way is to start defining each element of the matrix individually to start, and then assemble the matrix from these basic measures later on. I'll call these base, or summary measures. They're all pretty straight forward so far, just multiplying x and y values together in different ways.</p>
+	<p><i>Note: for display purposes, all values are truncated to two decimal points, <b>not rounded</b>.</i></p>
 	<img src="resource/polynomial/initial vars.png" class="centeredimg" alt="Initial summary measures: calculating sums of xs and ys to a power">
 
-	<p>With all of those measures computed, we can assemble our matrix M. From a mathematical perspective, this is skipping quite a few steps to get here (as detailed here), but there's really no reason to model those, as this is a convenient starting point to use anyways.</p>
+	<p>With all of those measures computed, we can assemble our matrix M. From a mathematical perspective, this is skipping quite a few steps (as detailed in the first few sections of the <i>The Data Scientists</i> article), but there's really no reason to model those, as this is a convenient starting point to use anyways.</p>
 	<img src="resource/polynomial/m matrix.png" class="centeredimg" alt="Assembled matrix of initial summary measures" />
 
-	<p>I found an <a href="https://metric.ma.ic.ac.uk/metric_public/matrices/inverses/inverses2.html">explanation that I like</a> to help find the inverse of a 3x3 matrix, which we ultimately need to do to compute the regression equation. The first step to finding the inverse of the matrix we just built in the previous step involves computing the minor of the matrix. For each row and column, cross out the current row and column and take the determinant of the remaining 2x2 matrix.</p>
+	<p>We need to find the inverse of this matrix. I found an <a href="https://metric.ma.ic.ac.uk/metric_public/matrices/inverses/inverses2.html">explanation that I like</a> to help find the inverse of a 3x3 matrix, which we ultimately need to do to compute the regression equation. The first step to finding the inverse of the matrix we built in the previous step involves computing the minor of the matrix. For each row and column, block out the current row and current column and take the determinant of the remaining 2x2 matrix. The result looks like the Minor matrix below.</p>
 	<img src="resource/polynomial/minor matrix.png" class="centeredimg" alt="Minor matrix" />
 
-	<p>Next, negate the value of alternating positions; this results in the cofactor matrix.</p>
+	<p>Next, negate the value of alternating positions; this is called the cofactor matrix.</p>
 	<img src="resource/polynomial/cofactor matrix.png" class="centeredimg" alt="Cofactor matrix" />
 
 	<p>Next, simply transpose the matrix - switch all the rows to columns and the columns to rows. Because of the way our matrix is set up and which values are in which position, this likely will not look any different than before.</p>
@@ -144,13 +145,13 @@
 	<p>As a precursor for step 4, we'll need to find the determinant of our original 3x3 matrix. This is straightforward for a 2x2 matrix, but more complex for 3x3. Basically, for each column in the 3x3, we need to compute the determinant of the 2x2 matrix not including that column, and then add them together.</p>
 	<img src="resource/polynomial/determinant matrix.png" class="centeredimg" alt="Determinant matrix" />
 
-	<p>For the final step in finding the inverse, divide the transposed matrix by the determinant. This is our inverse of M, or M^-1.</p>
+	<p>For the final step in finding the inverse, divide the transposed matrix by the determinant. This is our inverse of <var>M</var>, or .</p>
 	<img src="resource/polynomial/inverse matrix.png" class="centeredimg" alt="Inverse matrix" />
 
-	<p>We are now very close to the end of the process. Build up the y^ matrix with the basic summary measurements from the first step. </p>
+	<p>We are now very close to the end of the process. Build up the <var>y^</var> matrix with using three of the basic summary measurements from the first step. </p>
 	<img src="resource/polynomial/y matrix.png" class="centeredimg" alt="Y matrix" />
 
-	<p>Lastly, multiply M'M^-1 and M'y^ together to find our coefficients for the regression equation, c, b, and a.</p>
+	<p>Lastly, multiply <var>M'M<sup>-1</sup></var> and <var>M'y^</var> together to find our coefficients for the regression equation, <var>c</var>, <var>b</var>, and <var>a</var>.</p>
 	<img src="resource/polynomial/solution matrix.png" class="centeredimg" alt="Solution matrix" />
 	<img src="resource/polynomial/eqn_blank.png" class="centeredimg" alt="Blank polynomial equation" />
 	<img src="resource/polynomial/eqn_solution.png" class="centeredimg" alt="Solution equation" />
@@ -158,12 +159,14 @@
 
 
 	<h2>Porting to Power BI</h2>
-	<p>Using the same <a href="https://xxlbi.com/blog/simple-linear-regression-in-dax/">template for the linear regression</a> I previously linked, let's port the formulas and measures into a format useful in power bi. For the sake of this exercise, we have a dates table, and our data is located in a second table with a date field related to the dates table. As mentioned before, unless you're plotting a scatter plot, you need to create a list of your "masked" x values from 1 to n to use for calculations. For that, let's create the first measure.</p>
+	<p>With the calculations complete and seemingly correct, we can now worry about figuring out how to move that logic into a PBI measure. Start with the same <a href="https://xxlbi.com/blog/simple-linear-regression-in-dax/">template for the linear regression</a> I previously linked to and reuse much of the logic. For the sake of this exercise, we already have a separate date table, and our data is located in a second table with the date field (which I creatively called <var>Date</var>) related to the date table.</p> 
+	
+	<p>I explained in the interjection above, unless you're plotting a scatter plot, we first need to create a list of "masked" x values from 1 to n to use for calculations. To accomplish that, let's create the first measure.</p>
 	<code><pre>zSequence1ToN = RANKX(ALLSELECTED(_Calendar13Month[End of Week]),CALCULATE(MAX(_Calendar13Month[End of Week])),,ASC)</pre></code>
 	<img src="resource/polynomial/sequence.png" alt="Created sequence 1 to n against the list of dates" />
-	<p>RANKX is a handy function that allows us to rank the values in a table against some other criteria. In this instance, however, we want to rank the values in the dates table by themselves (aka in the order they appear). We do not necessarily want to rank all of the rows in the dates table, only the rows in the current context. If there is some sort of page or visual filter or slicer to narrow down our criteria, we always want to start counting whatever the first x data point is at 1, i.e., instead of ranking all of the rows, we only want to rank only the selected rows (ALLSELECTED), against some aggregation of the entire column. As an example, we have a filter to only show the dates between 6/6/2021 and 8/8/21 - 6/6/21 is the first date value "visible" in the current context, so we want 6/6/2021 to be number 1, instead of 1/1/2000 (which is the first value in the dates table). Within the calculation, it does not matter which aggregation is used for the date (sum, max, or min are all valid), though I chose to use max here for clarity.</p>
-	<p>Add this to a table, and you get a nice list of numbers 1 to n. Set this aside. It will come in handy later on for testing and validation reasons.</p>
-	<p>In a similar style, we only want to calculate the measures listed above (sumOfYs, sumOfX2, sumOfX3, etc) for the rows in the current context, not all of the rows in the data set. Let's create a new measure for our polynomial fit equation. In that measure, start by adding a new variable called Known. Known will be a table with three columns: the currently selected dates, our selected x's (1-n) and the y's that accompany the selected dates (by "selected", I mean in the current context).</p>
+	<p>RANKX is a handy function that allows us to rank values in a table against some other criteria. In this instance, however, we want to rank the values in the dates table by themselves. In other words, we want to rank the values in the order they appear. We do not necessarily want to rank all of the rows in the dates table - only the rows in the current context. If there is some sort of page or visual filter or slicer to narrow down our criteria, we always want to start counting whatever the first x data point is at 1, i.e., instead of ranking <i>all</i> of the rows of data, we only want to rank only the <i>selected</i> rows (<var>ALLSELECTED</var>), against some aggregation of the entire column. As an example, we have a filter to only show the dates between <var>6/6/2021</var> and <var>8/8/2021</var>. <var>6/6/2021</var> is the first date value "visible" in the current context, so we want <var>6/6/2021</var> to ranked as number 1, instead of <var>1/1/2000</var> (which is the very first value in the dates table). Within the calculation, it does not matter which aggregation is used for the date (sum, max, or min are all valid), though I chose to use max here for clarity. The <var>CALCULATE</var> component satisifies the <i>according to</i> component of the rank. This measure ranks all selected dates according to the value of the selected date.</p>
+	<p>To help visualize what this does, add the measure to a table, and we get a nice list of numbers <var>1..n</var>. Set this aside. It will come in handy later on for testing and validation reasons.</p>
+	<p>Similarly, we only want to calculate the measures listed above (<var>sumOfYs</var>, <var>sumOfX<sup>2</sup>s</var>, <var>sumOfX<sup>3</sup>s</var>, etc.) for the rows in the current context, not all of the rows in the data set. Let's create a new measure for our polynomial fit equation. In that measure, start by adding a new variable called <var>Known</var>. <var>Known</var> will be a table with three columns: the currently selected dates, our selected x's (1..n) and the y's that accompany the selected dates (by "selected", I mean in the current context).</p>
 	<code>
 		<pre>
 var Known =
@@ -175,7 +178,7 @@ var Known =
 </pre>
 	</code>
 
-	<p>Creating a table with these values also allows us to more easily reference the columns later on in the same measure, including multiplying them by each other. Adding the selected dates to this new table creates a "link" to the filtering in the rest of the report - i.e., when the [End of Week] field is filtered elsewhere in the report via an applied filter to the visual or a slicer, the Known table will also correspondingly filter the rows with the End of Week dates, and thus the KnownX and KnownY rows are filtered too.</p>
+	<p>Creating a table with these values also allows us to more easily reference the columns later on in the same measure, including multiplying them by each other. Adding the selected dates to this new table creates a "link" to the filtering in the rest of the report - i.e., when the <var>[End of Week]</var> field is filtered elsewhere in the report via an applied filter to the visual or a slicer, the <var>Known</var> table will also correspondingly filter the rows with the <var>[End of Week]</var> dates, and thus the <var>KnownX</var> and <var>KnownY</var> rows are filtered too.</p>
 	<p>Add in the other basic measures as explained above.</p>
 	<code>
 		<pre>
@@ -192,7 +195,7 @@ var determinant = countItems*((sumOfX2*sumOfX4)-(sumOfX3*sumOfX3))-sumOfXs*((sum
 	</code>
 
 	<br />
-	<p>With the base measures established, we can begin to build the inverse matrix. The work I spent doing things ahead of time in Excel really helps here, because we can shortcut many sub steps and skip straight for the final inverse matrix. I created one variable for each position in the 3x3 matrix; they can be named whatever you want but I decided to name them based on their row and column position in the matrix.</p>
+	<p>With the base measures established, we can begin to build the inverse matrix. The work I spent doing things ahead of time in Excel really helps here, because we can shortcut many steps and skip straight for the final inverse matrix. For simplicity I created one variable for each position in the 3x3 matrix; they can be named whatever you want but I decided to name them based on their row and column position in the matrix.</p>
 	<code>
 		<pre>
 //Calculate the inverse matrix (combining a few steps together)
@@ -207,7 +210,7 @@ var M32 = -((countItems*sumOfX3)-(sumOfX2*sumOfXs))/determinant
 var M33 = ((countItems*sumOfX2)-(sumOfXs*sumOfXs))/determinant</pre>
 	</code>
 
-	<p>Calculating the coefficients a, b, and c is now pretty straightforward matrix multiplication.</p>
+	<p>Calculating the coefficients <var>a</var>, <var>b</var>, and <var>c</var> is now pretty straightforward matrix multiplication.</p>
 	<code>
 		<pre>
 //Assuming equation of: a*x^2 + b*x + c
@@ -216,20 +219,20 @@ var b = M21*sumOfYs+M22*sumOfXY+M23*sumOfX2Y
 var a = M31*sumOfYs+M32*sumOfXY+M33*sumOfX2Y</pre>
 	</code>
 
-	<p>Lastly creating the equation to return the correct values back to your table or chart is as simple as multiplying the coefficients to the masked x values.</p>
+	<p>Finally, creating the equation to return the correct values back to your table or chart is as simple as multiplying the coefficients to the masked <var>1..n</var> sequence representing the x values in the equation.</p>
 	<code>
 		<pre>
 RETURN
     a*[zSequence1ToN]^2+b*[zSequence1ToN]+c</pre>
 	</code>
 
-	<p>With everything put together, the full measure might look like the following:</p>
+	<p>With everything put together, the full measure looks like the following:</p>
 	<code>
 		<pre>
 Value (poly fit) = 
 // Reference: https://www.thedatascientists.com/polynomial-regression/
 //            https://metric.ma.ic.ac.uk/metric_public/matrices/inverses/inverses2.html
-//            https://noahseveryn.weebly.com/regression-for-power-bi.html
+//            https://noah-severyn.github.io/polynomial-regression-for-powerbi.html
 // Because our Xs (dates) and Ys (measures) are in different tables, we have to temporarily create a new table (Known) with both of those values so we can perform SUMX operations easily.
 // To get the same polynomial fit as excel, the x values in the calculation are masked over with 1 thru n. Thus x-values in the calc are n+1-min(n)
 var countItems = COUNTROWS(ALLSELECTED(_Calendar13Month[End of Week]))
@@ -270,8 +273,9 @@ RETURN
 
 	<h2>Validation</h2>
 	<img src="resource/polynomial/validationfull.png" alt="Validation of Power BI results compared to Excel" />
-	<p>To prove it works correctly, you can return each coefficient one at a time (instead of the whole final equation) and compare each part to to excel, or add this measure into a matrix visual and compare the results. Check that you are getting the same result as excel - everything looks good here! In this case, a second order polynomial line gives us a much better idea of the trends of our data, especially when compared to just a linear regression line.</p>
-	<p>As we wrote it, the measure is ultimately very modular and easy to reuse multiple times - simply swap in your desired measure for "Known Y" and go. The ALLSELECTED parts will automagically pick up the current row contexts applied to the specific visual the measure is in and adapt accordingly, meaning you can use the same measure in charts at the same time with two different time periods and have different results.</p>
-	<p>Feel free to look through the sample excel and pbix files I've linked to at the top which I used to develop the process and test out the data. If you are interested in understanding things step by step, take a look. Otherwise, just use the measure. Either way, I hope you found this helpful! :)</p>
+	<p>To prove it works correctly, you can return each <var>a</var>, <var>b</var>, and <var>c</var> coefficient one at a time (instead of the whole final equation) and compare each part to to Excel, or add this measure into a matrix visual and compare the results. Check that you are getting the same result as Excel - everything looks good here! In this case, a second order polynomial line gives us a much better idea of the trends of our sample data, especially when compared to a regular linear regression line.</p>
+	<p>Because of the way the measure was written, it is ultimately very modular and very adaptable to reuse - simply swap in the desired measure for <var>KnownY</var> and go. The <var>ALLSELECTED</var> parts will automagically pick up the current row contexts applied to the specific visual the measure is in and adapt accordingly, meaning you can use the same measure in multiple charts at the same time with different time periods and return different fit equations.</p>
+	<p>Feel free to look through the sample excel and pbix files I've linked to at the top which I used to develop the process and test out the data. If you are interested in understanding things step by step, take a look. Otherwise, just use the measure. </p>
+	<p>Either way, I hope you found this helpful! :)</p>
 </body>
 </html>

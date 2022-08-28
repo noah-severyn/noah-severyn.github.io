@@ -27,6 +27,10 @@ p, li {
 	font-size: 1.05em;
 }
 
+li {
+	padding: 3px;
+}
+
 a {
 	color: rebeccapurple;
 }
