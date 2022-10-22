@@ -136,6 +136,10 @@ details {
 	border-radius: 10px;
 }
 
+.DetailsInner {
+	background-color: #ccffff;
+}
+
 summary {
 	font-family: Montserrat, 'Trebuchet MS', sans-serif;
 	color: #222222;
