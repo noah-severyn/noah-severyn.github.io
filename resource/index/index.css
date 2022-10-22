@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display');
 
-body {
-	margin-left: 225px; /* Same width as the sidebar + left position in px */
-}
-
 h1 {
 	color: white;
 	background-color: #000000;
@@ -23,12 +19,11 @@ p {
 }
 
 
-
 /* ========== */
 /*   Header   */
 /* ========== */
 #header_bg {
-	height: 300px;
+	height: 25vh;
 	background-color: #1084ca;
 }
 
@@ -39,11 +34,13 @@ p {
 }
 
 #header_social {
-	margin-left: 50px;
-	margin-top: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .socialicon {
 	height: 50px;
 	margin: 5px;
+	border: 0px;
 }
