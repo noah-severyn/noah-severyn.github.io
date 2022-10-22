@@ -1,0 +1,39 @@
+/* ========= */
+/*  Sidenav  */
+/* ========= */
+.sidenav {
+	width: 165px;
+	position: fixed;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0px; /*Needed to override body margin*/
+	margin: 40px;
+}
+
+	.sidenav p {
+		/*padding: 6px 0px 6px 0px;*/
+		margin: 0px;
+	}
+
+	.sidenav a {
+		display: block;
+		padding: 6px 0px 6px 0px;
+		text-decoration: none;
+		font-family: Calibri, 'Trebuchet MS', sans-serif;
+		font-size: 16px;
+		text-transform: uppercase;
+	}
+
+		.sidenav a:hover {
+			color: #c94fe2;
+		}
+
+	.sidenav #sidenavHeader {
+		font-family: Calibri, 'Trebuchet MS', sans-serif;
+		font-weight: 900;
+		font-size: 1.5em;
+		color: white;
+		background-color: black;
+		padding: 5px;
+		line-height: .95em;
+	}
