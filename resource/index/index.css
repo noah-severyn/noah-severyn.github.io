@@ -22,7 +22,7 @@ p {
 /* ========== */
 /*   Header   */
 /* ========== */
-#header_bg {
+header {
 	height: 25vh;
 	background-color: #1084ca;
 }
