@@ -1,22 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
 
-h1 {
-	color: white;
-	background-color: #000000;
-	font-family: 'Playfair Display', Georgia, serif;
-	font-size: 50px;
-	/*margin-left: 100px;*/
-	padding: 0px 10px 0px 10px;
-	width: fit-content;
-	white-space: break-spaces;
-}
-
-p {
-	font-family: 'Playfair Display', Georgia, serif;
-	color: #222222;
-	font-size: 1.05em;
-}
 
 
 /* ========== */
