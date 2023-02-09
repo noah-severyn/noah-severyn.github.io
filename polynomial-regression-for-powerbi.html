@@ -35,9 +35,53 @@
 			<li>You have more than one series in the chart but you only want one series to have a trend line, or</li>
 			<li>You want to use any other kind of regression other than linear (higher order, exponential, logarithmic, etc.)</li>
 		</ul>
-		<p>If you would like to follow along, I have attached the Excel and Power BI files I used to develop the process and test out the data. Feel free to use them as you like.</p>
+		<p>The full measure is posted below. If you would like to follow along, I have attached the Excel and Power BI files I used to develop the process and test out the data. Feel free to use them as you like.</p>
 		<p><img src="https://i.pinimg.com/originals/f0/ba/ab/f0baabc7a94a50448da9fb2d9508d450.png" class="linkicon" alt="Microsoft Excel icon" /> <a href="resource/polynomial/regression_test.xlsx" download>regression_test.xlsx</a> (55kb)</p>
 		<p><img src="https://lirp-cdn.multiscreensite.com/5b258fc8/dms3rep/multi/opt/Powerbi-960w.png" class="linkicon" alt="Power BI icon" /> <a href="resource/polynomial/regression_test.pbix" download>regression_test.pbix</a> (51kb)</p>
+		<code>
+			<pre>
+Value (poly fit) = 
+// Reference: https://www.thedatascientists.com/polynomial-regression/
+//            https://metric.ma.ic.ac.uk/metric_public/matrices/inverses/inverses2.html
+//            https://noah-severyn.github.io/polynomial-regression-for-powerbi.html
+// Because our Xs (dates) and Ys (measures) are in different tables, we have to temporarily create a new table (Known) with both of those values so we can perform SUMX operations easily.
+// To get the same polynomial fit as excel, the x values in the calculation are masked over with 1 thru n. Thus x-values in the calc are n+1-min(n)
+var countItems = COUNTROWS(ALLSELECTED(_Calendar13Month[End of Week]))
+var Known = 
+	SELECTCOLUMNS (
+		ALLSELECTED(_Calendar13Month[End of Week]),
+		"KnownX", [zSequence1ToN],
+		"KnownY", [Std Lbs / Lbr Hr act]
+	)
+var sumOfXs = SUMX(Known, [KnownX])
+var sumOfYs = SUMX(Known, [KnownY])
+var sumOfX2 = SUMX(Known, [KnownX] ^ 2)
+var sumOfX3 = SUMX(Known, [KnownX] ^ 3)
+var sumOfX4 = SUMX(Known, [KnownX] ^ 4)
+var sumOfXY = SUMX(Known, [KnownX] * [KnownY])
+var sumOfX2Y = SUMX(Known, [KnownX] ^ 2 * [KnownY])
+var determinant = countItems*((sumOfX2*sumOfX4)-(sumOfX3*sumOfX3))-sumOfXs*((sumOfXs*sumOfX4)-(sumOfX2*sumOfX3))+sumOfX2*((sumOfXs*sumOfX3)-(sumOfX2*sumOfX2))
+
+//Calculate the inverse matrix (combining a few steps together)
+var M11 = ((sumOfX2*sumOfX4)-(sumOfX3*sumOfX3))/determinant
+var M12 = -((sumOfXs*sumOfX4)-(sumOfX3*sumOfX2))/determinant
+var M13 = -((sumOfX2*sumOfX2)-(sumOfXs*sumOfX3))/determinant //there was an error on this line i had to add a negative to fix. no idea why. EVERY other var evaluates correctly.
+var M21 = -((sumOfXs*sumOfX4)-(sumOfX2*sumOfX3))/determinant
+var M22 = ((countItems*sumOfX4)-(sumOfX2*sumOfX2))/determinant
+var M23 = -((countItems*sumOfX3)-(sumOfXs*sumOfX2))/determinant
+var M31 = ((sumOfXs*sumOfX3)-(sumOfX2*sumOfX2))/determinant
+var M32 = -((countItems*sumOfX3)-(sumOfX2*sumOfXs))/determinant
+var M33 = ((countItems*sumOfX2)-(sumOfXs*sumOfXs))/determinant
+
+//Assuming equation of: a*x^2 + b*x + c
+var c = M11*sumOfYs+M12*sumOfXY+M13*sumOfX2Y
+var b = M21*sumOfYs+M22*sumOfXY+M23*sumOfX2Y
+var a = M31*sumOfYs+M32*sumOfXY+M33*sumOfX2Y
+
+RETURN
+	a*[zSequence1ToN]^2+b*[zSequence1ToN]+c</pre>
+		</code>
+	</section>
 	</section>
 
 	
