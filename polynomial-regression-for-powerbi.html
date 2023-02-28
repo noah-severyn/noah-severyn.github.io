@@ -26,7 +26,7 @@
 	
 	<section id="Intro">
 		<h2>Let's make some curves</h2>
-		<p><var>Last Update: Aug 2022</var></p>
+		<p><var>Last Update: Feb 2023</var></p>
 		<img src="resource/polynomial/charts.png" alt="Original charts" />
 		<p>If you're here looking to build some polynomial regression curves for some data, I'm sure I do not need to explain why they can be helpful when analyzing your data. I found myself replicate some excel charts with a polynomial trend line in a Power BI (PBI) report. As demonstarted in the Excel chart to the right, each of these regression lines told different stories about what was happening about the data in question.</p>
 		<p>As anyone developing PBI reports for a company will surely know, building the reports is a rather useless task if people don't use them - and even more so if the exact same analysis is being performed in Excel. This screenshot (a screenshot of a PowerPoint presentation from a Teams meeting), is one such example. The report I created to show this data did not have the any kind of useful trend lines  on this chart, so Excel (naturally) came to the rescue.</p>
@@ -38,6 +38,11 @@
 		<p>The full measure is posted below. If you would like to follow along, I have attached the Excel and Power BI files I used to develop the process and test out the data. Feel free to use them as you like.</p>
 		<p><img src="https://i.pinimg.com/originals/f0/ba/ab/f0baabc7a94a50448da9fb2d9508d450.png" class="linkicon" alt="Microsoft Excel icon" /> <a href="resource/polynomial/regression_test.xlsx" download>regression_test.xlsx</a> (55kb)</p>
 		<p><img src="https://lirp-cdn.multiscreensite.com/5b258fc8/dms3rep/multi/opt/Powerbi-960w.png" class="linkicon" alt="Power BI icon" /> <a href="resource/polynomial/regression_test.pbix" download>regression_test.pbix</a> (51kb)</p>
+		<br>
+		<p>The measures below rely on a calendar/date table named <var>_Calendar13Month</var>. The date field in that table we are aggregating against is <var>End Of Week</var>. <var>[values]</var> is a measure of the field we are aggregating against. If this field is not already a measure, turn it into a measure by just wrapping it in a <var>SUM</var> function (or a different aggregation as appropriate), like: <var>values (as a measure) = SUM(Tablename[Fieldname])</var>.</p>
+
+		<code><pre>zSequence1ToN = RANKX(ALLSELECTED(_Calendar13Month[End of Week]),CALCULATE(MAX(_Calendar13Month[End of Week])),,ASC)</pre></code>
+		
 		<code>
 			<pre>
 Value (poly fit) = 
@@ -51,7 +56,7 @@ var Known =
 	SELECTCOLUMNS (
 		ALLSELECTED(_Calendar13Month[End of Week]),
 		"KnownX", [zSequence1ToN],
-		"KnownY", [Std Lbs / Lbr Hr act]
+		"KnownY", [values]
 	)
 var sumOfXs = SUMX(Known, [KnownX])
 var sumOfYs = SUMX(Known, [KnownY])
@@ -289,7 +294,7 @@ var Known =
 	SELECTCOLUMNS (
 		ALLSELECTED(_Calendar13Month[End of Week]),
 		"KnownX", [zSequence1ToN],
-		"KnownY", [Std Lbs / Lbr Hr act]
+		"KnownY", [values]
 	)
 var sumOfXs = SUMX(Known, [KnownX])
 var sumOfYs = SUMX(Known, [KnownY])
