@@ -1,0 +1,28 @@
+
+
+
+/* ========== */
+/*   Header   */
+/* ========== */
+header {
+	height: 240px;
+	background-color: #1084ca;
+}
+
+#header_title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#header_social {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.socialicon {
+	height: 50px;
+	margin: 5px 15px;
+	border: 0px;
+}
