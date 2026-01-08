@@ -3,6 +3,13 @@
     Originally based on https://css-tricks.com/functional-css-tabs-revisited/ by Chris Coyier (last updated: Jan 16, 2020)
 */
 
+section label {
+	font-family: 'Alegreya', Georgia, serif;
+	font-size: 20px;
+    border: 1px solid #cfcfcf;
+    margin: 4px;
+}
+
 .tabs {
     display: flex;
     flex-flow: row wrap;
@@ -33,6 +40,9 @@
 
 .tabs [type=radio]:checked+label {
     text-decoration: underline solid black 2px;
+	color: white;
+	background-color: #000000;
+	width: fit-content;
 }
 
 /* .tabs [type=radio]:checked+label+* {
@@ -40,19 +50,8 @@
 } */
 
 
-
-.wrapper {
-    /* width: 500px; */
-}
-
 .box {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(15vw, 1fr));
     gap: 10px;
-}
-
-.box>* {
-
-    border-radius: 5px;
-    background-color: rgb(96 139 168 / 0.2);
 }
