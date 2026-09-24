@@ -1,18 +1,29 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-/* @import url('https://fonts.googleapis.com/css?family=Playfair+Display'); */
-@import url('https://fonts.googleapis.com/css?family=Alegreya');
+@font-face {
+  font-family: "FF Mark Pro";
+  src: url("../fonts/FontFont_FF.Mark_.Pro_.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Alegreya";
+  src: url("../fonts/Alegreya-Regular.woff2") format("woff2");
+}
+
+:root {
+	--purple-accent: #330099;
+}
 
 body {
 	margin-left: 225px; /* Same width as the sidebar + left position in px */
 }
 
 h1, h2, h3, h4, h5 {
-	font-family: 'Alegreya', Georgia, serif;
+	font-family: Alegreya, Georgia, serif;
 	color: white;
 	background-color: #000000;
-	font-family: 'Alegreya', Georgia, serif;
 	font-size: 50px;
 	padding: 0px 10px;
+	font-weight: 200;
 }
 /* Custom Centered H1 */
 h1.centered {
@@ -39,8 +50,8 @@ h4, h5 {
 	letter-spacing: .0em;
 }
 
-p, li {
-	font-family: Montserrat, Georgia, serif;
+p, li, blockquote {
+	font-family: FF Mark Pro, Georgia, serif;
 	color: #222222;
 }
 
@@ -80,16 +91,7 @@ table {
 	margin-right: auto;
 }
 
-/* ------------------ */
-/*     Blockquote     */
-/* ------------------ */
 blockquote {
-	font-family: Montserrat, 'Trebuchet MS', sans-serif;
-	font-style: italic;
-	font-size: 14px;
-}
-blockquote li {
-	font-family: Montserrat, 'Trebuchet MS', sans-serif;
 	font-style: italic;
 	font-size: 14px;
 	margin-left: -25px;
@@ -139,23 +141,30 @@ code pre {
 	word-break: break-all;
 }
 
-
-/* ------------------ */
-/*       Detail       */
-/* ------------------ */
-details {
-	margin: 10px 30px;
-	padding: 10px;
-	border: 1px solid black;
-	/* background-color: azure; */
-	background-color: #e6ffff;
-	border-radius: 10px;
+/* ========== */
+/*   Header   */
+/* ========== */
+header {
+	height: 240px;
+	background-color: var(--purple-accent);
 }
 
-summary {
-	font-family: Montserrat, 'Trebuchet MS', sans-serif;
-	color: #222222;
-	font-size: 20px;
+#header_title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#header_social {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.socialicon {
+	height: 50px;
+	margin: 5px 15px;
+	border: 0px;
 }
 
 /* ========= */
