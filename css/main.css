@@ -60,7 +60,7 @@ li {
 }
 
 a {
-	color: rebeccapurple;
+	color: var(--purple-accent);
 }
 
 var {
@@ -73,7 +73,7 @@ hr {
 }
 
 div.interjection p {
-	color: rebeccapurple;
+	color: var(--purple-accent);
 	margin: 20px;
 }
 
@@ -94,7 +94,6 @@ table {
 blockquote {
 	font-style: italic;
 	font-size: 14px;
-	margin-left: -25px;
 }
 
 
