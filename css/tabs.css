@@ -18,6 +18,15 @@ section label {
 
 .tabs label {
     padding: 0.5em 1em;
+    border-radius: 0.0rem;
+}
+
+.tabs label:hover {
+    padding: 0.5em 1em;
+    transform: rotateX(5.0deg) rotateY(7.5deg) rotateZ(0.5deg);
+    transition: box-shadow .35s,top .3s,transform .35s;
+    background-color: var(--purple-accent) ;
+	color: white;
 }
 
 .tabs>[type=radio] {
@@ -44,11 +53,6 @@ section label {
 	background-color: #000000;
 	width: fit-content;
 }
-
-/* .tabs [type=radio]:checked+label+* {
-    background: #eee;
-} */
-
 
 .box {
     display: grid;

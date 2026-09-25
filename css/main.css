@@ -1,12 +1,13 @@
 @font-face {
-  font-family: "FF Mark Pro";
-  src: url("../fonts/FontFont_FF.Mark_.Pro_.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
+	font-family: "FF Mark Pro";
+	src: url("../fonts/FontFont_FF.Mark_.Pro_.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
 }
+
 @font-face {
-  font-family: "Alegreya";
-  src: url("../fonts/Alegreya-Regular.woff2") format("woff2");
+	font-family: "Alegreya";
+	src: url("../fonts/Alegreya-Regular.woff2") format("woff2");
 }
 
 :root {
@@ -14,7 +15,9 @@
 }
 
 body {
-	margin-left: 225px; /* Same width as the sidebar + left position in px */
+	margin-left: 225px;
+	/* Same width as the sidebar + left position in px */
+	background-color: #e9f0fb;
 }
 
 h1, h2, h3, h4, h5 {
@@ -25,6 +28,7 @@ h1, h2, h3, h4, h5 {
 	padding: 0px 10px;
 	font-weight: 200;
 }
+
 /* Custom Centered H1 */
 h1.centered {
 	padding: 0px 10px 0px 10px;
@@ -53,6 +57,7 @@ h4, h5 {
 p, li, blockquote {
 	font-family: FF Mark Pro, Georgia, serif;
 	color: #222222;
+	font-size: 16px;
 }
 
 li {
@@ -107,20 +112,29 @@ img {
 	max-width: 100%;
 	height: auto;
 }
+
 img.centeredimg {
 	float: none;
 	display: block;
 	margin: 5px auto 5px auto;
 }
+
 img.linkicon {
 	float: none;
 	border: none;
 	width: 20px;
 	margin-bottom: -0.25em;
 }
+
 img.tableimg {
 	width: 20vw;
 	margin: 0px;
+}
+
+img.tableimg:hover {
+	border-radius: 0.5rem;
+	transform: scale(1.025);
+	transition: box-shadow .35s, top .3s, transform .35s;
 }
 
 
@@ -130,6 +144,7 @@ img.tableimg {
 code {
 	line-height: 1.5;
 }
+
 code pre {
 	border: unset;
 	padding: unset;
