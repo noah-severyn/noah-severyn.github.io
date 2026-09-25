@@ -119,6 +119,12 @@ img.centeredimg {
 	margin: 5px auto 5px auto;
 }
 
+img.centeredimg:hover {
+	border-radius: 0.5rem;
+	transform: scale(1.75);
+	transition: box-shadow .35s, top .3s, transform .35s;
+}
+
 img.linkicon {
 	float: none;
 	border: none;
@@ -159,7 +165,6 @@ code pre {
 /*   Header   */
 /* ========== */
 header {
-	height: 240px;
 	background-color: var(--purple-accent);
 }
 
