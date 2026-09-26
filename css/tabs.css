@@ -1,0 +1,61 @@
+/*
+    Code via https://github.com/kmoerman/css-tabs (MIT)
+    Originally based on https://css-tricks.com/functional-css-tabs-revisited/ by Chris Coyier (last updated: Jan 16, 2020)
+*/
+
+section label {
+	font-family: 'Alegreya', Georgia, serif;
+	font-size: 20px;
+    border: 1px solid #cfcfcf;
+    margin: 4px;
+}
+
+.tabs {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+.tabs label {
+    padding: 0.5em 1em;
+    border-radius: 0.0rem;
+}
+
+.tabs label:hover {
+    padding: 0.5em 1em;
+    transform: rotateX(5.0deg) rotateY(7.5deg) rotateZ(0.5deg);
+    transition: box-shadow .35s,top .3s,transform .35s;
+    background-color: var(--purple-accent) ;
+	color: white;
+}
+
+.tabs>[type=radio] {
+    display: none;
+}
+
+.tabs>[type=radio]+label {
+    order: 1;
+    cursor: pointer;
+}
+
+.tabs>[type=radio]+label+* {
+    width: 100%;
+    order: 2;
+}
+
+.tabs>[type=radio]:not(:checked)+label+* {
+    display: none;
+}
+
+.tabs [type=radio]:checked+label {
+    text-decoration: underline solid black 2px;
+	color: white;
+	background-color: #000000;
+	width: fit-content;
+}
+
+.box {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15vw, 1fr));
+    gap: 10px;
+}

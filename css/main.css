@@ -1,0 +1,222 @@
+@font-face {
+	font-family: "FF Mark Pro";
+	src: url("../fonts/FontFont_FF.Mark_.Pro_.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Alegreya";
+	src: url("../fonts/Alegreya-Regular.woff2") format("woff2");
+}
+
+:root {
+	--purple-accent: #330099;
+}
+
+body {
+	margin-left: 225px;
+	/* Same width as the sidebar + left position in px */
+	background-color: #e9f0fb;
+}
+
+h1, h2, h3, h4, h5 {
+	font-family: Alegreya, Georgia, serif;
+	color: white;
+	background-color: #000000;
+	font-size: 50px;
+	padding: 0px 10px;
+	font-weight: 200;
+}
+
+/* Custom Centered H1 */
+h1.centered {
+	padding: 0px 10px 0px 10px;
+	width: fit-content;
+	white-space: break-spaces;
+}
+
+h2, h3, h4, h5 {
+	font-size: 40px;
+	letter-spacing: .05em;
+	width: fit-content;
+}
+
+h3 {
+	font-size: 30px;
+	font-weight: normal;
+	letter-spacing: .0em;
+}
+
+h4, h5 {
+	font-size: 20px;
+	font-weight: normal;
+	letter-spacing: .0em;
+}
+
+p, li, blockquote {
+	font-family: FF Mark Pro, Georgia, serif;
+	color: #222222;
+	font-size: 16px;
+}
+
+li {
+	padding: 3px;
+}
+
+a {
+	color: var(--purple-accent);
+}
+
+var {
+	font-family: Calibri, sans-serif;
+}
+
+hr {
+	color: #dedede;
+	margin: 40px 20px 40px 20px;
+}
+
+div.interjection p {
+	color: var(--purple-accent);
+	margin: 20px;
+}
+
+section {
+	border-bottom: 1px solid #dedede;
+	padding-bottom: 30px;
+}
+
+
+/* ------------------ */
+/*        Table       */
+/* ------------------ */
+table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+blockquote {
+	font-style: italic;
+	font-size: 14px;
+}
+
+
+/* ------------------ */
+/*       Images       */
+/* ------------------ */
+img {
+	border: 1px solid #dedede;
+	float: right;
+	margin-left: 10px;
+	max-width: 100%;
+	height: auto;
+}
+
+img.centeredimg {
+	float: none;
+	display: block;
+	margin: 5px auto 5px auto;
+}
+
+img.centeredimg:hover {
+	border-radius: 0.5rem;
+	transform: scale(1.75);
+	transition: box-shadow .35s, top .3s, transform .35s;
+}
+
+img.linkicon {
+	float: none;
+	border: none;
+	width: 20px;
+	margin-bottom: -0.25em;
+}
+
+img.tableimg {
+	width: 20vw;
+	margin: 0px;
+}
+
+img.tableimg:hover {
+	border-radius: 0.5rem;
+	transform: scale(1.025);
+	transition: box-shadow .35s, top .3s, transform .35s;
+}
+
+
+/* ------------------ */
+/*        Code        */
+/* ------------------ */
+code {
+	line-height: 1.5;
+}
+
+code pre {
+	border: unset;
+	padding: unset;
+	border: 1px solid #dedede;
+	padding: 20px;
+	overflow-wrap: break-word;
+	/*TODO: Fix word break for smaller screens*/
+	word-break: break-all;
+}
+
+/* ========== */
+/*   Header   */
+/* ========== */
+header {
+	background-color: var(--purple-accent);
+}
+
+#header_title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#header_social {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.socialicon {
+	height: 50px;
+	margin: 5px 15px;
+	border: 0px;
+}
+
+/* ========= */
+/*  Sidenav  */
+/* ========= */
+.sidenav {
+	width: 165px;
+	position: fixed;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0px; /*Needed to override body margin*/
+	margin: 20px;
+}
+
+.sidenav a {
+	display: block;
+	padding: 6px;
+	text-decoration: none;
+	font-family: FF Mark Pro, Gill Sans, sans-serif;
+	font-size: 16px;
+}
+
+.sidenav a:hover {
+	color: #c94fe2;
+}
+
+.sidenav #sidenavHeader {
+	font-family: Alegreya, Georgia, serif;
+	font-weight: 300;
+	font-size: 2em;
+	color: white;
+	background-color: black;
+	padding: 10px;
+	line-height: .95em;
+	margin-bottom: 10px;
+}
