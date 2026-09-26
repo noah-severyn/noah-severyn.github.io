@@ -63,6 +63,18 @@
                 <p>Now that the serving of the catalog is separated from the UI, I was able to pursue any infrastructure I wanted to serve the user-facing side of the catalog. By this time I had "come around" on Javascript and I do like designing web pages, so I settled on a simple HTML/CSS website with basic vanilla Javascript to request data and update the page. I replaced the Bootstrap framework from the ASP.NET site with the lightweight Pico CSS framework, as the full Bootstrap compliment felt like overkill for a simple site like this. All other design of the site is my own styling and creation, which takes inspiration from the past catalog versions.</p>
                 <img src="/img/code/catalog-v4.jpg" class="centeredimg" width="30%">
             </article>
+
+            
+            <input type="radio" id="tab-yamleditor" name="tab-group-2" checked>
+            <label for="tab-yamleditor">YAML Editor for sc4pac</label>
+            <article id="yamleditor-detail">
+                <p>The <a href="https://github.com/noah-severyn/YamlEditorForSc4pac">YAML editor for sc4pac</a> is an HTML/Javascript web application designed to assist users in writing metadata for sc4pac. Instead of writing the YAML metadata by hand, which is tedious and error prone, this application provides a series of forms for users, and they can see the YAML generated side-by-side.</p>
+                <p>The current version is hosted online at <a href="https://yamleditorforsc4pac.net/">https://yamleditorforsc4pac.net/</a>.</p>
+                <p>The site is framework-free, relying solely on vanilla HTML, CSS, and Javascript for its functionality and design. This was my most involved project involving Javascript to date, and AI tools (first, Copilot chat in the web, and later Github Copilot in VS Code) were very helpful in explaining and providing samples for using libraries whose documentation was not always the most helpful. The largest source of frustration was debugging the serialization and deserialization of the data between JSON and YAML, where I often ended up with plain JSON structures instead of the structure the YAML library expected - AI was extremely helpful in debugging these scenarios. AI was also helpful in brainstorming and providing ideas for how to structure the UI to enable users to make sense of and enter data for sometimes complex nested objects. While it was useful for the first pass, I often found that I needed to make multiple other passes over to massage the style or refine the underlying code to the standards I was expecting.</p>
+                <p>This was also the first of my projects that had received a substantial level of code contribution from a third party. This was a neat experience because the user, Zasco, was able to offer feedback on things like removing copied minified js libraries from my project directory and using CDNs instead, plus other things I was unfamiliar with as a new Javascript coder. Many of their ideas I did implement, but they also had large ideas for how to refractor the program that I didn't necessarily agree with, and I am glad that I pushed back on some of the recommendations to maintain my vision for both the code and interface as the long-term maintainer.</p>
+                <img src="/img/code/yaml-editor-for-sc4pac.jpg" class="centeredimg" width="30%">
+                
+            </article>
         </div>
     </section>
 </body>
